@@ -43,6 +43,11 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+      
+
+        // Allow the display action so our PagesController
+        // continues to work. Also enable the read only actions.
+      //  $this->Auth->allow(['view', 'index']);
 
         /*
          * Enable the following components for recommended CakePHP security settings.
