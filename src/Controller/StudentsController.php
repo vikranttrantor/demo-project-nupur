@@ -104,9 +104,8 @@ class StudentsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
-
-    public function login()
+    public function logout()
     {
-        
+        return $this->redirect($this->Auth->logout());
     }
 }

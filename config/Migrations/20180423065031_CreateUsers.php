@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class CreateAdmins extends AbstractMigration
+class CreateUsers extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,7 +12,7 @@ class CreateAdmins extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('admins');
+        $table = $this->table('users');
         $table->addColumn('name', 'string', [
             'default' => null,
             'limit' => 255,
@@ -28,6 +28,11 @@ class CreateAdmins extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
+        $table->addColumn('role', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
         $table->addColumn('created', 'datetime', [
             'default' => null,
             'null' => false,
@@ -36,12 +41,14 @@ class CreateAdmins extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addIndex([
-            'emailId',
+          $table->addIndex([
+            'name',
         ], [
-            'name' => 'UNIQUE_EMAILID',
+            'name' => 'name',
             'unique' => true,
         ]);
         $table->create();
+
+
     }
 }

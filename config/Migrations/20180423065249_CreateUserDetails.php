@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class CreateStudents extends AbstractMigration
+class CreateUserDetails extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,18 +12,13 @@ class CreateStudents extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('students');
-        $table->addColumn('name', 'string', [
+        $table = $this->table('user_details');
+        $table->addColumn('user_id', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('emailId', 'string', [
-            'default' => null,
-            'limit' => 255,
-            'null' => false,
-        ]);
-        $table->addColumn('password', 'string', [
+        $table->addColumn('Roll', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
@@ -32,12 +27,7 @@ class CreateStudents extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('rollno', 'string', [
-            'default' => null,
-            'limit' => 255,
-            'null' => false,
-        ]);
-        $table->addColumn('courseName', 'string', [
+        $table->addColumn('course', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
@@ -47,7 +37,7 @@ class CreateStudents extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('totalCourseFee', 'string', [
+        $table->addColumn('totalFee', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
@@ -61,26 +51,6 @@ class CreateStudents extends AbstractMigration
             'default' => null,
             'limit' => 255,
             'null' => false,
-        ]);
-        $table->addColumn('created', 'datetime', [
-            'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('modified', 'datetime', [
-            'default' => null,
-            'null' => false,
-        ]);
-        $table->addIndex([
-            'emailId',
-        ], [
-            'name' => 'UNIQUE_EMAILID',
-            'unique' => true,
-        ]);
-        $table->addIndex([
-            'rollno',
-        ], [
-            'name' => 'UNIQUE_ROLLNO',
-            'unique' => true,
         ]);
         $table->create();
     }

@@ -8,17 +8,6 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property string $emailId
- * @property string $password
- * @property string $address
- * @property string $rollno
- * @property string $courseName
- * @property string $duration
- * @property string $totalCourseFee
- * @property string $feePaid
- * @property string $image
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime $modified
  */
 class Student extends Entity
 {
@@ -33,26 +22,6 @@ class Student extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'emailId' => true,
-        'password' => true,
-        'address' => true,
-        'rollno' => true,
-        'courseName' => true,
-        'duration' => true,
-        'totalCourseFee' => true,
-        'feePaid' => true,
-        'image' => true,
-        'created' => true,
-        'modified' => true
-    ];
-
-    /**
-     * Fields that are excluded from JSON versions of the entity.
-     *
-     * @var array
-     */
-    protected $_hidden = [
-        'password'
+        'name' => true
     ];
 }

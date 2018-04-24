@@ -22,8 +22,6 @@
         <legend><?= __('Edit Admin') ?></legend>
         <?php
             echo $this->Form->control('name');
-            echo $this->Form->control('emailId');
-            echo $this->Form->control('password');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

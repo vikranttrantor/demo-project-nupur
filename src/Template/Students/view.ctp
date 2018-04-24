@@ -21,52 +21,8 @@
             <td><?= h($student->name) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('EmailId') ?></th>
-            <td><?= h($student->emailId) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($student->password) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Rollno') ?></th>
-            <td><?= h($student->rollno) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('CourseName') ?></th>
-            <td><?= h($student->courseName) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Duration') ?></th>
-            <td><?= h($student->duration) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('TotalCourseFee') ?></th>
-            <td><?= h($student->totalCourseFee) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('FeePaid') ?></th>
-            <td><?= h($student->feePaid) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Image') ?></th>
-            <td><?= h($student->image) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($student->id) ?></td>
         </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($student->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($student->modified) ?></td>
-        </tr>
     </table>
-    <div class="row">
-        <h4><?= __('Address') ?></h4>
-        <?= $this->Text->autoParagraph(h($student->address)); ?>
-    </div>
 </div>

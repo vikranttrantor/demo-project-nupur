@@ -16,15 +16,6 @@
         <legend><?= __('Add Student') ?></legend>
         <?php
             echo $this->Form->control('name');
-            echo $this->Form->control('emailId');
-            echo $this->Form->control('password');
-            echo $this->Form->control('address');
-            echo $this->Form->control('rollno');
-            echo $this->Form->control('courseName');
-            echo $this->Form->control('duration');
-            echo $this->Form->control('totalCourseFee');
-            echo $this->Form->control('feePaid');
-            echo $this->Form->control('image');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

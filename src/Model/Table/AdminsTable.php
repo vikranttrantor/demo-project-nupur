@@ -16,8 +16,6 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Admin patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Admin[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Admin findOrCreate($search, callable $callback = null, $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class AdminsTable extends Table
 {
@@ -32,11 +30,12 @@ class AdminsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('students');
+        $this->setTable('users');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
-
-        $this->addBehavior('Timestamp');
+         $this->hasOne('UserDetails', [
+            'foreignKey' => 'user_id'
+        ]);
     }
 
     /**
@@ -57,33 +56,6 @@ class AdminsTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
-        $validator
-            ->scalar('emailId')
-            ->maxLength('emailId', 255)
-            ->requirePresence('emailId', 'create')
-            ->notEmpty('emailId')
-            ->add('emailId', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
-
-        $validator
-            ->scalar('password')
-            ->maxLength('password', 255)
-            ->requirePresence('password', 'create')
-            ->notEmpty('password');
-
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->isUnique(['emailId']));
-
-        return $rules;
     }
 }

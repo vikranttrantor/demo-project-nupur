@@ -17,22 +17,13 @@ class AdminsController extends AppController
      * Index method
      *
      * @return \Cake\Http\Response|void
-
-
      */
     public function index()
-    {
-        //$admins = $this->paginate($this->Admins);
-
-        //$this->set(compact('admins'));
-
-       // $student = $this->loadModel('Students');
-             // $student->find('all');
-
+    {   
+        $s=$this->Admins/////to doooooooo
         $students = $this->paginate($this->Admins);
 
         $this->set(compact('students'));
-
     }
 
     /**
@@ -58,18 +49,17 @@ class AdminsController extends AppController
      */
     public function add()
     {
-       $student = $this->Admins->newEntity();
-      //print_r($student);die;
+        $admin = $this->Admins->newEntity();
         if ($this->request->is('post')) {
-            $student = $this->Admins->patchEntity($student, $this->request->getData());
-            if ($this->Admins->save($student)) {
-                $this->Flash->success(__('The student entry has been saved.'));
+            $admin = $this->Admins->patchEntity($admin, $this->request->getData());
+            if ($this->Admins->save($admin)) {
+                $this->Flash->success(__('The admin has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The student entry could not be saved. Please, try again.'));
+            $this->Flash->error(__('The admin could not be saved. Please, try again.'));
         }
-        $this->set(compact('student'));
+        $this->set(compact('admin'));
     }
 
     /**
@@ -84,15 +74,14 @@ class AdminsController extends AppController
         $admin = $this->Admins->get($id, [
             'contain' => []
         ]);
-        //print_r($admin);die;
         if ($this->request->is(['patch', 'post', 'put'])) {
             $admin = $this->Admins->patchEntity($admin, $this->request->getData());
             if ($this->Admins->save($admin)) {
-                $this->Flash->success(__('The student entry has been saved.'));
+                $this->Flash->success(__('The admin has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The student entry could not be saved. Please, try again.'));
+            $this->Flash->error(__('The admin could not be saved. Please, try again.'));
         }
         $this->set(compact('admin'));
     }
@@ -109,11 +98,15 @@ class AdminsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $admin = $this->Admins->get($id);
         if ($this->Admins->delete($admin)) {
-            $this->Flash->success(__('The student entry has been deleted.'));
+            $this->Flash->success(__('The admin has been deleted.'));
         } else {
-            $this->Flash->error(__('The student entry could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The admin could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    public function logout()
+    {
+        return $this->redirect($this->Auth->logout());
     }
 }

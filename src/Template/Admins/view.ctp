@@ -21,24 +21,8 @@
             <td><?= h($admin->name) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('EmailId') ?></th>
-            <td><?= h($admin->emailId) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($admin->password) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($admin->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($admin->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($admin->modified) ?></td>
         </tr>
     </table>
 </div>

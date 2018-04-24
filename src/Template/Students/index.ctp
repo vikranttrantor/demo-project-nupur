@@ -8,6 +8,7 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Student'), ['action' => 'add']) ?></li>
+         <li><?= $this->Html->link(__('Logout'), ['action' => 'logout']) ?></li>
     </ul>
 </nav>
 <div class="students index large-9 medium-8 columns content">
@@ -17,16 +18,6 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('emailId') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('password') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('rollno') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('courseName') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('duration') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('totalCourseFee') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('feePaid') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('image') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -35,16 +26,6 @@
             <tr>
                 <td><?= $this->Number->format($student->id) ?></td>
                 <td><?= h($student->name) ?></td>
-                <td><?= h($student->emailId) ?></td>
-                <td><?= h($student->password) ?></td>
-                <td><?= h($student->rollno) ?></td>
-                <td><?= h($student->courseName) ?></td>
-                <td><?= h($student->duration) ?></td>
-                <td><?= h($student->totalCourseFee) ?></td>
-                <td><?= h($student->feePaid) ?></td>
-                <td><?= h($student->image) ?></td>
-                <td><?= h($student->created) ?></td>
-                <td><?= h($student->modified) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $student->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $student->id]) ?>
