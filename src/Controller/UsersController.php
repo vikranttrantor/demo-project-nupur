@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\Event\Event;
 
 /**
  * Users Controller
@@ -19,51 +18,11 @@ class UsersController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-
-
-    /* public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-        // Allow users to register and logout.
-        // You should not add the "login" action to allow list. Doing so would
-        // cause problems with normal functioning of AuthComponent.
-        $this->Auth->allow(['add']);
-    }*/
     public function index()
     {
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
-    }
-
-    public function login()
-    {
-        if ($this->request->is('post')) {
-              $user = $this->Auth->identify();
-               // pr($user);die;
-                if ($user) {
-                    $this->Auth->setUser($user);
-                  
-                    $dbrole=$user['role'];//pr($dbrole);die;
-                   if($dbrole==0)
-                   {
-
-                        return $this->redirect(['controller'=>'Admins','action'=>'index']);
-                    }                       
-                    else
-                    {
-                         return $this->redirect(['controller'=>'Students','action'=>'index']);
-                    }
-                        //return $this->redirect($this->Auth->redirectUrl());
-                }
-                     
-                else {
-                    $this->Flash->error(__('Username or password is incorrect'));
-                } 
-                }
-            
-           
-        
     }
 
     /**
@@ -76,7 +35,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['UserDetails']
+            'contain' => ['Userdetail']
         ]);
 
         $this->set('user', $user);

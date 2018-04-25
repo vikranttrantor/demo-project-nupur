@@ -4,21 +4,21 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * UserDetail Entity
+ * Userdetail Entity
  *
  * @property int $id
- * @property string $user_id
- * @property string $Roll
+ * @property int $user_id
+ * @property int $roll
  * @property string $address
  * @property string $course
- * @property string $duration
- * @property string $totalFee
- * @property string $feePaid
+ * @property int $duration
+ * @property int $totalFee
+ * @property int $feePaid
  * @property string $image
  *
  * @property \App\Model\Entity\User $user
  */
-class UserDetail extends Entity
+class Userdetail extends Entity
 {
 
     /**
@@ -32,7 +32,7 @@ class UserDetail extends Entity
      */
     protected $_accessible = [
         'user_id' => true,
-        'Roll' => true,
+        'roll' => true,
         'address' => true,
         'course' => true,
         'duration' => true,

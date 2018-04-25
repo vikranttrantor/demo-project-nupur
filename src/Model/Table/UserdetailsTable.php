@@ -7,19 +7,19 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * UserDetails Model
+ * Userdetails Model
  *
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  *
- * @method \App\Model\Entity\UserDetail get($primaryKey, $options = [])
- * @method \App\Model\Entity\UserDetail newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\UserDetail[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\UserDetail|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\UserDetail patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\UserDetail[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\UserDetail findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Userdetail get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Userdetail newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Userdetail[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Userdetail|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Userdetail patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Userdetail[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Userdetail findOrCreate($search, callable $callback = null, $options = [])
  */
-class UserDetailsTable extends Table
+class UserdetailsTable extends Table
 {
 
     /**
@@ -32,7 +32,7 @@ class UserDetailsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('user_details');
+        $this->setTable('userdetails');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
@@ -55,13 +55,13 @@ class UserDetailsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('Roll')
-            ->maxLength('Roll', 255)
-            ->requirePresence('Roll', 'create')
-            ->notEmpty('Roll');
+            ->integer('roll')
+            ->requirePresence('roll', 'create')
+            ->notEmpty('roll');
 
         $validator
             ->scalar('address')
+            ->maxLength('address', 255)
             ->requirePresence('address', 'create')
             ->notEmpty('address');
 
@@ -72,20 +72,17 @@ class UserDetailsTable extends Table
             ->notEmpty('course');
 
         $validator
-            ->scalar('duration')
-            ->maxLength('duration', 255)
+            ->integer('duration')
             ->requirePresence('duration', 'create')
             ->notEmpty('duration');
 
         $validator
-            ->scalar('totalFee')
-            ->maxLength('totalFee', 255)
+            ->integer('totalFee')
             ->requirePresence('totalFee', 'create')
             ->notEmpty('totalFee');
 
         $validator
-            ->scalar('feePaid')
-            ->maxLength('feePaid', 255)
+            ->integer('feePaid')
             ->requirePresence('feePaid', 'create')
             ->notEmpty('feePaid');
 

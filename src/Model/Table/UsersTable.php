@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property \App\Model\Table\UserDetailsTable|\Cake\ORM\Association\HasMany $UserDetails
+ * @property |\Cake\ORM\Association\HasMany $Userdetails
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
@@ -40,7 +40,7 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->hasOne('UserDetails', [
+        $this->hasMany('Userdetails', [
             'foreignKey' => 'user_id'
         ]);
     }
@@ -61,14 +61,14 @@ class UsersTable extends Table
             ->scalar('name')
             ->maxLength('name', 255)
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmpty('name')
+            ->add('name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('emailId')
             ->maxLength('emailId', 255)
             ->requirePresence('emailId', 'create')
-            ->notEmpty('emailId')
-            ->add('emailId', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->notEmpty('emailId');
 
         $validator
             ->scalar('password')
@@ -77,8 +77,7 @@ class UsersTable extends Table
             ->notEmpty('password');
 
         $validator
-            ->scalar('role')
-            ->maxLength('role', 255)
+            ->integer('role')
             ->requirePresence('role', 'create')
             ->notEmpty('role');
 
@@ -94,7 +93,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['emailId']));
+        $rules->add($rules->isUnique(['name']));
 
         return $rules;
     }
