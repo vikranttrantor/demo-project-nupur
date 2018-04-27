@@ -82,9 +82,8 @@ class UserdetailsTable extends Table
             ->notEmpty('totalFee');
 
         $validator
-            ->integer('feePaid')
-            ->requirePresence('feePaid', 'create')
-            ->notEmpty('feePaid');
+            ->integer('feePaid');
+           
 
         $validator
             ->scalar('image')

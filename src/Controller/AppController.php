@@ -41,14 +41,54 @@ class AppController extends Controller
     {
         parent::initialize();
 
-        $this->loadComponent('RequestHandler');
+        $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
         $this->loadComponent('Flash');
 
+          $this->loadComponent('Auth', [
+          'authorize' => ['Controller'], 
+        'authenticate' => [
+            'Form' => [
+                'userModel' => 'Users',
+                     'fields' => ['username' => 'name', 'password' => 'password']
+            ]
+             
+        ],
+        'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login'
+                
+            ]
+    ]);
         /*
          * Enable the following components for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
+        $this->Auth->allow("add");
     }
+
+    public function isAuthorized($user)
+    {   
+       // pr($user['role']);die;
+        // Admin can access every action
+        
+        
+        if ( ($user['role'] ==0)&&($this->request->getParam('controller') == 'Users')) {
+            return true;
+        }
+       
+        if(($user['role'] ==1)&&($this->request->getParam('controller') == 'Students')){
+            return true;
+        }
+        if ( ($user['role'] ==0)&&($this->request->getParam('controller') == 'Userfees')) {
+            return true;
+        }
+        return $this->redirect(['controller'=>'Users','action'=>'login']);
+    
+
+    }
+
+
+      
 }

@@ -24,7 +24,14 @@
             echo $this->Form->control('name');
             echo $this->Form->control('emailId');
             echo $this->Form->control('password');
-            echo $this->Form->control('role');
+            echo $this->Form->control('userdetail.roll');
+            echo $this->Form->control('userdetail.address');
+            echo $this->Form->control('userdetail.course');
+            echo $this->Form->control('userdetail.duration');
+            echo $this->Form->control('userdetail.totalFee');
+
+             echo $this->Form->control('userdetail.image');
+            
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

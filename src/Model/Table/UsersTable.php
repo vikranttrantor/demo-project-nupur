@@ -40,8 +40,16 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('Userdetails', [
-            'foreignKey' => 'user_id'
+        $this->hasOne('Userdetails', [
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true
+        ]);
+
+        $this->hasMany('Userfees', [
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
     }
 
@@ -77,10 +85,8 @@ class UsersTable extends Table
             ->notEmpty('password');
 
         $validator
-            ->integer('role')
-            ->requirePresence('role', 'create')
-            ->notEmpty('role');
-
+            ->integer('role');
+           
         return $validator;
     }
 
