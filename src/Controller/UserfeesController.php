@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\I18n\Time;
 
 
 /**
@@ -30,6 +31,7 @@ class UserfeesController extends AppController
         $this->set(compact('userfees'));
          $u_id=$this->request->getParam('pass');
          $truser_fee=TableRegistry::get('Userfees');
+        // pr($u_id);die;
         $summary=$truser_fee->find("all")->where(['user_id'=>$u_id[0]]);
          $userfees = $this->paginate($summary);
          $this->set(compact('userfees'));
@@ -67,10 +69,8 @@ class UserfeesController extends AppController
             $feeData=$this->request->getData();
 
             //find total fee
-            $truser_det=TableRegistry::get('Userdetails');
-            $details=$truser_det->findByUserId($feeData['user_id']);
-            $arr_details= $details->toArray();
-            $total_fee=$arr_details[0]->totalFee;
+            $total_fee=$this->getTotalfee($feeData['user_id']);
+            
 
             //find balance left
             $totalFeePaid=$this->getTotalfeePaid($feeData['user_id']);
@@ -92,7 +92,7 @@ class UserfeesController extends AppController
                 if ($this->Userfees->save($userfee)) 
                 {   //updating Users table for total fee paid
                     $totalFeePaid=$this->getTotalfeePaid($feeData['user_id']);
-
+                    $truser_det=TableRegistry::get('Userdetails');
                     $query = $truser_det->query();
                     $query->update()
                         ->set(['feePaid' => $totalFeePaid])
@@ -120,6 +120,15 @@ class UserfeesController extends AppController
         }
        
     }
+
+    public function getTotalfee($userid)
+    {
+        $truser_det=TableRegistry::get('Userdetails');
+        $details=$truser_det->findByUserId($userid);
+        $arr_details= $details->toArray();
+        $total_fee=$arr_details[0]->totalFee;
+         return $total_fee;
+    }
     public function getTotalfeePaid($id)
     {
          $truser_fee=TableRegistry::get('Userfees');
@@ -142,16 +151,53 @@ class UserfeesController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
-    {
-        $userfee = $this->Userfees->get($id, [
+    {   
+         $truser_fees=TableRegistry::get('Userfees');
+        $userfee = $truser_fees->get($id, [
             'contain' => []
         ]);
+       // pr( $userfee);die;
+         $userid= $userfee->user_id;
+         // pr( $userid);die;
+             //find total fee
+            $total_fee=$this->getTotalfee($userid);
+            
+            //find balance left
+            $totalFeePaid=$this->getTotalfeePaid($userid);
+
+            $bal=$total_fee-$totalFeePaid;
+            //pr($bal);die;
+            
+            $bal=$bal+$userfee['feePaid'];
+             
+           
+     
         if ($this->request->is(['patch', 'post', 'put'])) {
+
+             $data=$this->request->getData();
+           
+             
+             //pr($bal);die;
+            if($data['feePaid']>$bal)
+            {
+                $this->Flash->error(__('Yor are paying more than Course Amount!!'));
+                return $this->redirect(['controller'=>'Userfees','action' => 'edit', $userfee->id]);
+            }
+
+
             $userfee = $this->Userfees->patchEntity($userfee, $this->request->getData());
             if ($this->Userfees->save($userfee)) {
+                 $totalFeePaid=$this->getTotalfeePaid($userid);
+                $tr=TableRegistry::get('Userdetails');
+                $query = $tr->query();
+                $query->update()
+                ->set(['feePaid' =>  $totalFeePaid])
+                ->where(['user_id' => $userid])
+                ->execute();
+
                 $this->Flash->success(__('The userfee has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index',$userid]);
             }
             $this->Flash->error(__('The userfee could not be saved. Please, try again.'));
         }
@@ -170,12 +216,27 @@ class UserfeesController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $userfee = $this->Userfees->get($id);
+        $userid= $userfee->user_id;
+       // pr($userid);die;
+       
+        $deleted=$userfee->feePaid;
+        $tr=TableRegistry::get('Userdetails');
+        $updated=$tr->findByUserId($userfee->user_id)->toArray();
+
+        $updated= $updated[0]->feePaid-$deleted;
         if ($this->Userfees->delete($userfee)) {
+       
+             
+                $query = $tr->query();
+                $query->update()
+                ->set(['feePaid' =>  $updated])
+                ->where(['user_id' => $userid])
+                ->execute();
             $this->Flash->success(__('The userfee has been deleted.'));
         } else {
             $this->Flash->error(__('The userfee could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'index' , $userid]);
     }
 }

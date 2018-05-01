@@ -17,7 +17,7 @@
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
+    <?= $this->Form->create($user, ['enctype' => 'multipart/form-data']) ?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
@@ -29,9 +29,9 @@
             echo $this->Form->control('userdetail.course');
             echo $this->Form->control('userdetail.duration');
             echo $this->Form->control('userdetail.totalFee');
-
-             echo $this->Form->control('userdetail.image');
-            
+            echo  $this->Form->control('userdetail.image', ['type' => 'file', 'required'=>false]);
+           echo $this->Html->image('upload/studentImage/'.$user->userdetail->image, array('alt' => 'CakePHP', 'height'=>'200','width'=>'200')) ;
+              
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

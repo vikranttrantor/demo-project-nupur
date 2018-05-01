@@ -88,7 +88,7 @@ class UserdetailsTable extends Table
         $validator
             ->scalar('image')
             ->maxLength('image', 255)
-            ->requirePresence('image', 'create')
+           // ->requirePresence('image', 'create')
             ->notEmpty('image');
 
         return $validator;

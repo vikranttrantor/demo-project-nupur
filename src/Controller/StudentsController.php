@@ -20,8 +20,12 @@ class StudentsController extends AppController
      */
     public function index()
     {   
-       $id=$this->request->getParam('pass');
-      $id=$id[0];
+      // $id=$this->request->getParam('pass');
+       //$id=$user['id'];
+       // pr($_SESSION['Auth']['User']['id']);die;
+       //$id=$user->find('id');
+       //pr($id);die;
+      $id=$_SESSION['Auth']['User']['id'];
 
         $tr=TableRegistry::get('Users');
         $user = $tr->get($id, [

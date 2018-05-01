@@ -13,7 +13,7 @@
                 ['confirm' => __('Are you sure you want to delete # {0}?', $userfee->id)]
             )
         ?></li>
-        <li><?= $this->Html->link(__('List Userfees'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Userfees'), ['action' => 'index', $userfee->user_id]) ?></li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>

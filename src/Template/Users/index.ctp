@@ -3,9 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
+$this->loadHelper('Link');
 ?>
-
-  
+<style type="text/css">
+  .redCol {
+    color: red;
+  }
+</style>
 
 
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
@@ -32,17 +36,20 @@
                 <th scope="col"><?= $this->Paginator->sort('feeLeft') ?></th>
                 
                 
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
+               <!-- <th scope="col"><?= $this->Paginator->sort('created') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>-->
                 <th scope="col"><?= $this->Paginator->sort('fee') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($users as $user): ?>
+            <?php 
+            foreach ($users as $user): 
+              $isFeeDelayed = $this->Link->getFeeStatus($user->created, $user->userdetail->duration);
+            ?>
             <tr>
                 
-                <td><?= h($user->name) ?></td>
+                <td><div class="<?php if($isFeeDelayed) echo "redCol"; ?>"><?= h($user->name) ?></div></td>
                 <td><?= h($user->emailId) ?></td>
                 <td><?= h($user->userdetail->roll) ?></td>
                 <td><?= h($user->userdetail->address) ?></td>
@@ -50,16 +57,27 @@
                 <td><?= h($user->userdetail->duration) ?></td>
                 <td><?= h($user->userdetail->totalFee) ?></td>
                 <td><?= h($user->userdetail->feePaid) ?></td>
-                <td><?= h($user->userdetail->totalFee-$user->userdetail->feePaid) ?></td>
-                <td><?= h($user->created) ?></td>
-                <td><?= h($user->modified) ?></td>
+                <td <div class="<?php if($isFeeDelayed) echo "redCol"; ?>"><?= h($user->userdetail->totalFee-$user->userdetail->feePaid) ?></div></td>
+                 <!--<td><?= h($this->Time->format($user->created, \IntlDateFormatter::LONG, null, 'Asia/Kolkata')) ?></td>
+               <td><?= h($user->modified) ?></td>-->
                 <td><a  class="modale" data-toggle="modal" data-target="#exampleModal" data-id="<?=$user->id?>" >pay</a>
                 <?= $this->Html->link(__('View Pay Summary'), ['controller'=>'Userfees','action' => 'index', $user->id]) ?>  </td>
                 <td class="actions">
 
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>   
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>             
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>||   
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?> ||            
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>||
+                    <?php if ($user->userdetail->status==0)
+                      {
+                        echo $this->Html->link(__('Activate'), ['action' => 'status', $user->id,'1']) ;
+                      }
+                      else
+                      {
+                        echo $this->Html->link(__('Deactivate'), ['action' => 'status', $user->id,'0']) ;
+                      }
+                    ?>  
+                     
+                    
                 </td>
             </tr>
             <?php endforeach; ?>

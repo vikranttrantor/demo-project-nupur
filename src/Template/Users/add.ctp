@@ -11,7 +11,7 @@
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
+    <?= $this->Form->create($user, ['enctype' => 'multipart/form-data']) ?>
     <fieldset>
         <legend><?= __('Add User') ?></legend>
         <?php
@@ -25,7 +25,7 @@
             echo $this->Form->control('userdetail.totalFee');
             //echo $this->Form->control('userdetail.feePaid');
 
-             echo $this->Form->control('userdetail.image');
+             echo  $this->Form->control('userdetail.image', ['type' => 'file']);
            
             
         ?>

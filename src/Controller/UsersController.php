@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\I18n\Time;
 
 /**
  * Users Controller
@@ -21,16 +22,16 @@ class UsersController extends AppController
      */
     public function index()
     {   
-         $tr=TableRegistry::get('Users');
-         $s=$tr->find('all')->where(['role'=>1])->contain(['Userdetails']);
+         $trUsers = TableRegistry::get('Users');
+         $allUsers = $trUsers->find('all')->where(['role'=>1])->contain(['Userdetails']);
 
-        $users = $this->paginate($s);
-         //pr($users);die;
+        $users = $this->paginate($allUsers);
         
 
-        $this->set(compact('users'));
+        $this->set('users',$allUsers);
 
     }
+
 
     /**
      * View method
@@ -63,11 +64,30 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $data=$this->request->getData();
 
+            $data1=$data['userdetail'];
+            $file=$data1['image'];
+          //  $data1['image']=$file['name'];
+
+
+                $ext = substr(strtolower(strrchr($file['name'], '.')), 1); 
+                $arr_ext = array('jpg', 'jpeg', 'gif', 'png'); 
+                $setNewFileName = time() . "_" . $data['name'];
+              
+                if (in_array($ext, $arr_ext)) {
+                  
+                    move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/upload/studentImage/' . $setNewFileName . '.' . $ext);
+                    $imageFileName = $setNewFileName . '.' . $ext;
+                    
+                }
+               
+            $data['userdetail']['image']=$imageFileName;
+                  
             $user = $tr->newEntity($data, ['associated' => ['Userdetails']] );
+
             $user['role']=1;
-           // pr($user);die;
-            $user = $tr->patchEntity($user, $this->request->getData(),['associated' => ['Userdetails']]);
-            //pr($user);die;
+
+             $user->userdetail['image']=$imageFileName;
+           
        
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
@@ -92,10 +112,44 @@ class UsersController extends AppController
         $user = $tr->get($id, [
             'contain' => ['Userdetails']
         ]);
+                
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $tr->patchEntity($user, $this->request->getData(),['associated' => ['Userdetails']]);
+            $data=$this->request->getData();
+            
+            $data1=$data['userdetail'];
+            $file=$data1['image'];
 
-            if ($this->Users->save($user)) {
+         
+            $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+                $arr_ext = array('jpg', 'jpeg', 'gif', 'png'); //set allowed extensions
+                $setNewFileName = time() . "_" . $data['name'];
+            
+                if (in_array($ext, $arr_ext)) {
+                    
+                    move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/upload/studentImage/' . $setNewFileName . '.' . $ext);
+
+                   
+                    $imageFileName = $setNewFileName . '.' . $ext;
+                  
+                    }
+               
+               
+            if($data['userdetail']['image']['name'])
+            {
+              //pr( $data['userdetail']['image']);
+                $data['userdetail']['image']=$imageFileName;
+            }
+            else
+            {   //echo 1;
+                unset($data['userdetail']['image']);
+            }
+           // pr( $data);die;
+
+              
+            $user = $tr->patchEntity($user, $data,['associated' => ['Userdetails']]);
+           
+
+            if ($tr->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -140,16 +194,26 @@ class UsersController extends AppController
                 $this->Auth->setUser($user);
                 $dbrole=$user['role'];//pr($dbrole);die;
                 $id=$user['id'];
+
+                 $tr=TableRegistry::get('Users');
+                 $user1 = $tr->get($id, [
+                                    'contain' => ['Userdetails']
+                                 ]);
+                $acti=$user1['userdetail']['status'];
                 if($dbrole==0)
                 {   
                     return $this->redirect(['controller'=>'Users','action'=>'index']);
                 }                       
+                else if($acti==1)
+                {
+                    return $this->redirect(['controller'=>'Students','action'=>'index']);
+                }
                 else
                 {
-                    return $this->redirect(['controller'=>'Students','action'=>'index',$id]);
-                }
+                    $this->Flash->error(__('This user is deactivated.'));
                   
                 //$this->redirect($this->Auth->redirectUrl());
+                }
             }
                      
             else
@@ -165,5 +229,16 @@ class UsersController extends AppController
     public function logout()
     {
         return $this->redirect($this->Auth->logout());
+    }
+
+     public function status($id,$data)
+    {   
+        $tr=TableRegistry::get('Userdetails');
+        $query = $tr->query();
+        $query->update()
+        ->set(['status' => $data])
+        ->where(['user_id' => $id])
+        ->execute();
+       return $this->redirect(['controller'=>'Users','action'=>'index']);
     }
 }

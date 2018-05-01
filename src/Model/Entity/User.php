@@ -20,7 +20,7 @@ use Cake\Auth\DefaultPasswordHasher;
  */
 class User extends Entity
 {
-
+    protected $_virtual = ['feestatus'];
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -54,5 +54,10 @@ class User extends Entity
         if (strlen($password) > 0) {
           return (new DefaultPasswordHasher)->hash($password);
         }
+    }
+    
+    protected function _getLabel()
+    {
+        return $this->_properties['name'] . ' ' . $this->_properties['emailId'];
     }
 }

@@ -57,7 +57,9 @@
         </tr>
          <tr>
             <th scope="row"><?= __('Image') ?></th>
-            <td><?= h($user->userdetail->image) ?></td>
+            
+           <td><?= $this->Html->image('upload/studentImage/'.$user->userdetail->image, array('alt' => 'CakePHP', 'height'=>'200','width'=>'200')) ?></td>
+            
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>
