@@ -85,6 +85,7 @@ class UsersController extends AppController
             $user = $tr->newEntity($data, ['associated' => ['Userdetails']] );
 
             $user['role']=1;
+            $user->userdetail['status']=1;
 
              $user->userdetail['image']=$imageFileName;
            
@@ -240,5 +241,41 @@ class UsersController extends AppController
         ->where(['user_id' => $id])
         ->execute();
        return $this->redirect(['controller'=>'Users','action'=>'index']);
+    }
+
+    public function addexpenses()
+    {   
+        $tr=TableRegistry::get('Excategories');
+        $excategories=$tr->find('all');
+       $excat= (array) $excategories;
+       $optionsArr = [];
+
+       foreach ($excategories as $key => $cat) {
+        $optionsArr[$cat->id] = $cat->name;        
+       }
+       // pr($optionsArr);
+       $this->set('optionsArr',$optionsArr);
+       
+    }
+
+    public function addamount()
+    {   
+         if ($this->request->is('post')) 
+         {
+            $data=$this->request->getData();
+           $tr_amount=TableRegistry::get('Examount');
+            $amount=$tr_amount->newEntity($data);
+           // $am = $tr_amount->patchEntity($amount,$data); 
+            $amount->excategory_id=$data['field'];
+
+           // pr($amount);die;
+
+            if ($tr_amount->save($amount)) {
+                $this->Flash->success(__('The amount has been added.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+
+         }
     }
 }

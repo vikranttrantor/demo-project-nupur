@@ -16,11 +16,14 @@ $this->loadHelper('Link');
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Create New Student'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('Add Expenses'), ['action' => 'addexpenses']) ?></li>
         <li><?= $this->Html->link(__('Logout'), ['action' => 'logout']) ?></li>
+       
     </ul>
 </nav>
 <div class="users index large-9 medium-8 columns content">
     <h3><?= __('Student Listing') ?></h3>
+
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
