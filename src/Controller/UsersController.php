@@ -13,7 +13,14 @@ use Cake\I18n\Time;
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
-{
+{   
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Mail');
+       
+    }
 
     /**
      * Index method
@@ -91,7 +98,9 @@ class UsersController extends AppController
            
        
             if ($this->Users->save($user)) {
+                 $this->Mail->sendSmtpMail($data['emailId']);
                 $this->Flash->success(__('The user has been saved.'));
+               
 
                 return $this->redirect(['action' => 'index']);
             }
@@ -99,6 +108,9 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
     }
+
+    
+    
 
     /**
      * Edit method
@@ -278,4 +290,5 @@ class UsersController extends AppController
 
          }
     }
+
 }

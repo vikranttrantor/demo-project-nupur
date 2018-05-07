@@ -81,7 +81,7 @@ class AppController extends Controller
         if(($user['role'] ==1)&&($this->request->getParam('controller') == 'Students')){
             return true;
         }
-        if ( ($user['role'] ==0)&&(($this->request->getParam('controller') == 'Userfees')||($this->request->getParam('controller') == 'Examount')||($this->request->getParam('controller') == 'Excategories'))) {
+        if ( ($user['role'] ==0)&&(($this->request->getParam('controller') == 'Userfees')||($this->request->getParam('controller') == 'Examount')||($this->request->getParam('controller') == 'Excategories')||($this->request->getParam('controller') == 'Reports'))) {
             return true;
         }
         return $this->redirect(['controller'=>'Users','action'=>'login']);
