@@ -78,7 +78,7 @@
                 
            <tr>
                   <td>
-                    <p style="margin-top:20px;line-height:125%;">Thanks, <br>ABC Team
+                    <p style="margin-top:20px;line-height:125%;">Thanks, <br><?= $instituteName ?><br><?= $adminEmail ?>
                     </p>
                     
                   </td>

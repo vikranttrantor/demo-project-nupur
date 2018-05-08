@@ -3,6 +3,7 @@ namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Mailer\Email;
+use Cake\ORM\TableRegistry;
 class MailComponent extends Component
 {
 	public function sendSmtpMail($name,$emailId,$password,$courseName,$duration,$courseFee)
@@ -24,15 +25,27 @@ class MailComponent extends Component
        //      echo "no";die;
        // }
 
+     $adminData = $this->getAdminData();
+     $instituteName = $adminData[0]->Institutename;
+     $adminEmail = $adminData[0]->adminemailId;
        $email = new Email('default');
         $email->setTemplate('emailTemplate')
             ->setEmailFormat('html')
-            ->setViewVars(['name' =>$name,"email"=>$email,"password"=>$password,"courseName"=>$courseName,"duration"=>$duration,"courseFee"=>$courseFee])
-            ->from(['me@example.com' => 'ABC Institute'])
+            ->setViewVars(['name' =>$name,"email"=>$email,"password"=>$password,"courseName"=>$courseName,"duration"=>$duration,"courseFee"=>$courseFee,"instituteName"=>$instituteName,"adminEmail"=>$adminEmail])
+            ->from(['me@example.com' => 'My Site'])
+            // ->from([$adminEmail =>  $instituteName])
             ->setTo($emailId)
             ->setSubject('You are successfully registered.')
             ->send('My message');
            // die("here");
 
+    }
+
+    public function getAdminData()
+    {
+
+      $trUsers = TableRegistry::get('Settings');
+      $adminData = $trUsers->find('all');
+      return $adminData->toArray();
     }
 }

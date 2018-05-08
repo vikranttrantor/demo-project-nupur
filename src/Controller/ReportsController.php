@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 //use Cake\Http\ServerRequest;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 
 /**
@@ -32,9 +33,9 @@ class ReportsController extends AppController
     public function studentEnroll()
     { 
         if($this->request->is(['ajax']))
-        {   $data=$this->request->getData();
-            $response=$this->Report->getStudentsEnrolled($data);
-            $enrolledData=$this->response->withType('json')->withStringBody(json_encode($response));
+        {   $data = $this->request->getData();
+            $response = $this->Report->getStudentsEnrolled($data);
+            $enrolledData = $this->response->withType('json')->withStringBody(json_encode($response));
             return $enrolledData;
         }
     }
@@ -44,9 +45,9 @@ class ReportsController extends AppController
     public function feeCollected()
     {
         if($this->request->is(['ajax']))
-        {   $data=$this->request->getData();
-            $response=$this->Report->getFeePaid($data);
-            $feePaid=$this->response->withType('json')->withStringBody(json_encode($response));
+        {   $data = $this->request->getData();
+            $response = $this->Report->getFeePaid($data);
+            $feePaid = $this->response->withType('json')->withStringBody(json_encode($response));
             return $feePaid;
         }
         
@@ -60,13 +61,18 @@ class ReportsController extends AppController
 
     
     public function profit()
-    {
-        
-        if($this->request->is(['ajax']))
-        {   $data=$this->request->getData();
-            $response=$this->Report->getProfit($data);
-            $profit=$this->response->withType('json')->withStringBody(json_encode($response));
+    {   
+        $trCourses=TableRegistry::get('Courses');
+        $courses=$trCourses->find('list', ['limit' => 200]);
+
+        if( $this->request->is(['ajax']) )
+        {   
+            $data = $this->request->getData();
+            $response = $this->Report->getProfit($data);
+            $profit = $this->response->withType('json')->withStringBody(json_encode($data));
             return $profit;
         }
+        $this->set(compact('courses'));
+
     }
 }

@@ -39,7 +39,7 @@ class CoursesTable extends Table
         // $this->hasOne('Userdetails', [
         //     'foreignKey' => 'course_id'
         // ]);
-        $this->belongsTo('Userdetails', [
+        $this->hasMany('Userdetails', [
              'foreignKey' => 'course_id',
              'joinType' => 'INNER'
          ]);

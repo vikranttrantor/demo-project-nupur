@@ -56,10 +56,10 @@ $this->loadHelper('Report');
 		 			{
 			 			
 			 			$.each(data, function( index, value ) {
-			 				htmlCourse = htmlCourse + '<h1>'+value.course_id+'</h1>';
+			 				htmlCourse = htmlCourse + '<h1>'+value.course.name+'</h1>';
 			 				htmlCourse = htmlCourse + '<h3>'+value.count+'</h3>';
 			 				htmlCourse = htmlCourse + '<hr>';
-			 				 enrolledByCourse.push({name:value.course , y:value.count});
+			 				 enrolledByCourse.push({name:value.course.name , y:value.count});
 			 			});
 						$(".showdata").html(htmlCourse);
 

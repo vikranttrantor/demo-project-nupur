@@ -17,8 +17,10 @@ $this->loadHelper('Link');
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Create New Student'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('Add Expenses'), ['action' => 'addexpenses']) ?></li>
-        <li><?= $this->Html->link(__('View Reports'), ['controller'=>'Reports','action' => 'index']) ?></li>
+        
          <li><?= $this->Html->link(__('Add Courses'), ['controller'=>'Courses','action' => 'index']) ?></li>
+         <li><?= $this->Html->link(__('View Reports'), ['controller'=>'Reports','action' => 'index']) ?></li>
+         <li><?= $this->Html->link(__('Settings'), ['controller'=>'Settings','action' => 'edit']) ?></li>
         <li><?= $this->Html->link(__('Logout'), ['action' => 'logout']) ?></li>
 
 

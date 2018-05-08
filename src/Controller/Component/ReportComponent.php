@@ -12,6 +12,9 @@ class ReportComponent extends Component
 {
    public function getStudentsEnrolled($data)
 	{
+		$trUserDetails = TableRegistry::get('Userdetails');	
+			//$query = $trUserDetails->find("all")->contain(['Courses']);
+			//pr($query->toArray()); die;
 		$val = array_keys($data) ;
 		$v = $val[0];
 		if($v=='1')
@@ -27,9 +30,11 @@ class ReportComponent extends Component
 		else
 		{
 			$trUserDetails = TableRegistry::get('Userdetails');	
-			$query = $trUserDetails->find();
-			$courseUserCount = $query->select(['course_id','count' =>$query->func()->count('course_id')])->group('course_id');
-			pr($courseUserCount->toArray());die;
+			$query = $trUserDetails->find()->contain(['Courses']);
+			//pr($query->toArray());die;
+			 $courseUserCount = $query->select(['Courses.name','course_id','count' =>$query->func()->count('course_id')])->group('course_id');
+			//$courseUserCount = $query->contain(['Courses']);
+			//pr($courseUserCount->toArray());die;
 			 return $courseUserCount;
 		}
 
