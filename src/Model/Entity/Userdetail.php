@@ -34,7 +34,7 @@ class Userdetail extends Entity
         'user_id' => true,
         'roll' => true,
         'address' => true,
-        'course' => true,
+        'course_id' => true,
         'duration' => true,
         'totalFee' => true,
         'feePaid' => true,

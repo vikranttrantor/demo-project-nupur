@@ -40,6 +40,14 @@ class UserdetailsTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
+         // $this->belongsTo('Courses', [
+         //     'foreignKey' => 'course_id',
+         //     'joinType' => 'INNER'
+         // ]);
+        $this->hasMany('Courses', [
+            'foreignKey' => 'course_id'
+        ]);
+        
     }
 
     /**
@@ -65,11 +73,10 @@ class UserdetailsTable extends Table
             ->requirePresence('address', 'create')
             ->notEmpty('address');
 
-        $validator
-            ->scalar('course')
-            ->maxLength('course', 255)
+        /*$validator
+            ->integer('course')
             ->requirePresence('course', 'create')
-            ->notEmpty('course');
+            ->notEmpty('course');*/
 
         $validator
             ->integer('duration')
@@ -87,9 +94,9 @@ class UserdetailsTable extends Table
 
         $validator
             ->scalar('image')
-            ->maxLength('image', 255)
+            ->maxLength('image', 255);
            // ->requirePresence('image', 'create')
-            ->notEmpty('image');
+            //->notEmpty('image');
 
         return $validator;
     }

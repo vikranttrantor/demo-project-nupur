@@ -18,6 +18,7 @@ $this->loadHelper('Link');
         <li><?= $this->Html->link(__('Create New Student'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('Add Expenses'), ['action' => 'addexpenses']) ?></li>
         <li><?= $this->Html->link(__('View Reports'), ['controller'=>'Reports','action' => 'index']) ?></li>
+         <li><?= $this->Html->link(__('Add Courses'), ['controller'=>'Courses','action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('Logout'), ['action' => 'logout']) ?></li>
 
 
@@ -50,7 +51,8 @@ $this->loadHelper('Link');
         <tbody>
             <?php 
             foreach ($users as $user): 
-              $isFeeDelayed = $this->Link->getFeeStatus($user->created, $user->userdetail->duration);
+              $isFeeDelayed = $this->Link->getFeeStatus($user->created, $user->userdetail->duration,$user->userdetail->totalFee-$user->userdetail->feePaid);
+              $courseName=$this->Link->getCourseName($user->userdetail->course_id);
             ?>
             <tr>
                 
@@ -58,7 +60,8 @@ $this->loadHelper('Link');
                 <td><?= h($user->emailId) ?></td>
                 <td><?= h($user->userdetail->roll) ?></td>
                 <td><?= h($user->userdetail->address) ?></td>
-                <td><?= h($user->userdetail->course) ?></td>
+
+                <td><?= h($courseName) ?></td>
                 <td><?= h($user->userdetail->duration) ?></td>
                 <td><?= h($user->userdetail->totalFee) ?></td>
                 <td><?= h($user->userdetail->feePaid) ?></td>

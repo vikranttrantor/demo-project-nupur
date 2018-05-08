@@ -26,7 +26,7 @@
             echo $this->Form->control('password');
             echo $this->Form->control('userdetail.roll');
             echo $this->Form->control('userdetail.address');
-            echo $this->Form->control('userdetail.course');
+           echo $this->Form->control('userdetail.course_id', ['options' => $courses]);
             echo $this->Form->control('userdetail.duration');
             echo $this->Form->control('userdetail.totalFee');
             echo  $this->Form->control('userdetail.image', ['type' => 'file', 'required'=>false]);

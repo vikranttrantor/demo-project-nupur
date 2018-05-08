@@ -4,6 +4,7 @@ namespace App\View\Helper;
 
 use Cake\View\Helper;
 use Cake\I18n\Time;
+use Cake\ORM\TableRegistry;
 
 class LinkHelper extends Helper
 {
@@ -12,7 +13,7 @@ class LinkHelper extends Helper
         die("this is working");
     }
 
-	public function getFeeStatus($t, $d)
+	public function getFeeStatus($t, $d, $bal)
 	{
 
 
@@ -28,8 +29,16 @@ class LinkHelper extends Helper
 		$nd= $nd->modify("-6 days");
 		$now = Time::now();
 		//echo $nd;
-		if($now>=$nd){return 1;}
+		if(($now>=$nd)&&($bal>0)){return 1;}
 		else{return 0; }
 
+	}
+	public function getCourseName($courseId)
+	{
+		 $trCourses = TableRegistry::get('Courses');
+		 $query=$trCourses->find();
+         $CourseName=$query->select(['name'])->where(['id'=>$courseId]);
+         $course= $CourseName->toArray();
+         return $course[0]->name;
 	}
 }

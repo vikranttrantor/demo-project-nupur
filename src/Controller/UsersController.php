@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\Time;
+use Cake\Mailer\Email;
 
 /**
  * Users Controller
@@ -29,6 +30,7 @@ class UsersController extends AppController
      */
     public function index()
     {   
+        
          $trUsers = TableRegistry::get('Users');
          $allUsers = $trUsers->find('all')->where(['role'=>1])->contain(['Userdetails']);
 
@@ -64,13 +66,16 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add()
-    {   
+    {   $trCourses=TableRegistry::get('Courses');
+        $courses=$trCourses->find('list', ['limit' => 200]);
+
+
         $tr=TableRegistry::get('Users');
         $user=$tr->newEntity();
         
         if ($this->request->is('post')) {
             $data=$this->request->getData();
-
+           // pr($data);die;
             $data1=$data['userdetail'];
             $file=$data1['image'];
           //  $data1['image']=$file['name'];
@@ -95,10 +100,12 @@ class UsersController extends AppController
             $user->userdetail['status']=1;
 
              $user->userdetail['image']=$imageFileName;
-           
-       
+
+          $courseName= $this->getcourseName($data['userdetail']['course_id']);
+           $course=$courseName[0]->name;
+       // pr($user);die;
             if ($this->Users->save($user)) {
-                 $this->Mail->sendSmtpMail($data['emailId']);
+                 $this->Mail->sendSmtpMail($data['name'],$data['emailId'],$data['password'],$course, $data['userdetail']['duration'], $data['userdetail']['totalFee']);
                 $this->Flash->success(__('The user has been saved.'));
                
 
@@ -107,9 +114,16 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
+        $this->set(compact('courses'));
     }
 
-    
+    public function getcourseName($id)
+    {
+         $trCourses=TableRegistry::get('Courses');
+         $query=$trCourses->find();
+         $CourseName=$query->select(['name'])->where(['id'=>$id]);
+         return $CourseName->toArray();
+    }
     
 
     /**
@@ -121,6 +135,9 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {   
+         $trCourses=TableRegistry::get('Courses');
+        $courses=$trCourses->find('list', ['limit' => 200]);
+
          $tr=TableRegistry::get('Users');
         $user = $tr->get($id, [
             'contain' => ['Userdetails']
@@ -170,6 +187,7 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
+        $this->set(compact('courses'));
     }
 
     /**

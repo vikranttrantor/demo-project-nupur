@@ -31,7 +31,7 @@ echo $this->Html->script('/js/jspdf.min.js');
         'id' => 'dwnld',
         'class' => 'dwnld'
         )); ?>
-        <a id="btn_dwnld"> <button id="btnExport" onclick="write_to_sheet();"> Download</button></a>
+        <a id = "btn_dwnld"> <button id = "btnExport" onclick="write_to_sheet();"> Download</button></a>
 
     <div id="dwn">
     <?php
@@ -47,7 +47,7 @@ echo $this->Html->script('/js/jspdf.min.js');
 
     function write_to_sheet() 
     {
-        var type=$("#dwnld").val();
+        var type = $("#dwnld").val();
         console.log(type);
        
          var dt = new Date();
@@ -60,7 +60,7 @@ echo $this->Html->script('/js/jspdf.min.js');
         
         var postfix = day + "." + month + "." + year + "_" + hour + "." + mins;
 
-        if(type=="2")
+        if(type == "2")
         {   var dwn_name=name+"_"+ postfix + '.xls';
             var data_type = 'data:application/vnd.ms-excel';
                     var a = document.getElementById('btn_dwnld');
@@ -75,8 +75,8 @@ echo $this->Html->script('/js/jspdf.min.js');
             //a.click();
 
         }
-        if(type=="1")
-        {   var dwnpdf= name+"_" +postfix + '.pdf';
+        if(type == "1")
+        {   var dwnpdf = name+"_" +postfix + '.pdf';
              var pdf = new jsPDF('p', 'pt', 'ledger');
                
                 source = $('#dwn')[0];

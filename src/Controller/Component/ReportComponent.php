@@ -28,7 +28,8 @@ class ReportComponent extends Component
 		{
 			$trUserDetails = TableRegistry::get('Userdetails');	
 			$query = $trUserDetails->find();
-			$courseUserCount = $query->select(['course','count' =>$query->func()->count('course')])->group('course');
+			$courseUserCount = $query->select(['course_id','count' =>$query->func()->count('course_id')])->group('course_id');
+			pr($courseUserCount->toArray());die;
 			 return $courseUserCount;
 		}
 
