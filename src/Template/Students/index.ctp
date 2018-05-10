@@ -7,7 +7,7 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-       
+       <li><?= $this->Html->link(__('Send Message To Admin'), ['controller'=>'Messages','action' => 'add','student', $user->id]) ?></li>
         <li><?= $this->Html->link(__('Logout'), ['action' => 'logout']) ?></li>
         
             

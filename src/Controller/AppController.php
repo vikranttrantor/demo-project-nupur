@@ -78,10 +78,10 @@ class AppController extends Controller
             return true;
         }
        
-        if(($user['role'] ==1)&&($this->request->getParam('controller') == 'Students')){
+        if(($user['role'] ==1)&&(($this->request->getParam('controller') == 'Students')||($this->request->getParam('controller') == 'Students'))){
             return true;
         }
-        if ( ($user['role'] ==0)&&(($this->request->getParam('controller') == 'Userfees')||($this->request->getParam('controller') == 'Examount')||($this->request->getParam('controller') == 'Excategories')||($this->request->getParam('controller') == 'Reports')||($this->request->getParam('controller') == 'Courses')||($this->request->getParam('controller') == 'Settings'))) {
+        if ( ($user['role'] ==0)&&(($this->request->getParam('controller') == 'Userfees')||($this->request->getParam('controller') == 'Examount')||($this->request->getParam('controller') == 'Excategories')||($this->request->getParam('controller') == 'Reports')||($this->request->getParam('controller') == 'Courses')||($this->request->getParam('controller') == 'Settings')||($this->request->getParam('controller') == 'Students'))) {
             return true;
         }
         return $this->redirect(['controller'=>'Users','action'=>'login']);

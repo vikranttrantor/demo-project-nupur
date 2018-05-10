@@ -64,15 +64,20 @@ class ReportsController extends AppController
     {   
         $trCourses=TableRegistry::get('Courses');
         $courses=$trCourses->find('list', ['limit' => 200]);
-
+        //$courses->0="select";
+        $course=$courses->toArray();
+        array_unshift($course,'Select');
+        //$course[0]="Select";
+        //pr($course);die;
         if( $this->request->is(['ajax']) )
         {   
             $data = $this->request->getData();
+            //pr($data);die("hii");
             $response = $this->Report->getProfit($data);
-            $profit = $this->response->withType('json')->withStringBody(json_encode($data));
+            $profit = $this->response->withType('json')->withStringBody(json_encode($response));
             return $profit;
         }
-        $this->set(compact('courses'));
+        $this->set(compact('course'));
 
     }
 }

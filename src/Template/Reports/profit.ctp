@@ -39,7 +39,7 @@ echo $this->Html->css("daterangepicker.css");
     <i class="fa fa-calendar"></i>&nbsp;
     <span></span> <i class="fa fa-caret-down"></i>
 </div>
-<?php echo $this->Form->control('userdetail.course_id', ['options' => $courses, "id"=>'courses']); ?>
+<?php echo $this->Form->control('userdetail.course_id', ['options' => $course, "id"=>'courses']); ?>
 <div class="showdata"></div>
 </div>
 
@@ -55,6 +55,7 @@ echo $this->Html->css("daterangepicker.css");
 					   // var end = moment();
 
 					    function cb(start, end) {
+
 					        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 					    }
 
@@ -66,7 +67,7 @@ echo $this->Html->css("daterangepicker.css");
 					        //startDate: start,
 					       // endDate: end,
 					        ranges: {
-					           
+					         	//'Select':['',''],
 					           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
 					           'This Month': [moment().startOf('month'), moment()],
 					           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
@@ -95,7 +96,7 @@ echo $this->Html->css("daterangepicker.css");
                  //console.log(course);
                  var dates={start:start,end:end,course:course};
                  //var dates="start";
-                 // console.log(dates);
+                  console.log(dates);
                  $.ajax({
 					 		url : url,
 					 		type : 'POST',
@@ -103,19 +104,19 @@ echo $this->Html->css("daterangepicker.css");
 					 		success : function(data){
 					 			console.log("-----------------");
 					 			console.log(data);
-					 			// var htmlCourse = '';
+					 			 var htmlCourse = '';
 					 			
 
-									// htmlCourse = htmlCourse + '<h1>'+"Total Fee Gathered"+'</h1>';
-									// htmlCourse = htmlCourse + '<h3>'+data.totalFee+'</h3>';
-									// htmlCourse = htmlCourse + '<hr>';
-									// htmlCourse = htmlCourse + '<h1>'+"Total Expenses"+'</h1>';
-									// htmlCourse = htmlCourse + '<h3>'+data.totalExpense+'</h3>';
-									// htmlCourse = htmlCourse + '<hr>';
-									// htmlCourse = htmlCourse + '<h1>'+"Total Profit"+'</h1>';
-									// htmlCourse = htmlCourse + '<h3>'+data.totalBalance+'</h3>';
-									// htmlCourse = htmlCourse + '<hr>';
-									// $(".showdata").html(htmlCourse);
+									htmlCourse = htmlCourse + '<h1>'+"Total Fee Gathered"+'</h1>';
+									htmlCourse = htmlCourse + '<h3>'+data.totalFee+'</h3>';
+									htmlCourse = htmlCourse + '<hr>';
+									htmlCourse = htmlCourse + '<h1>'+"Total Expenses"+'</h1>';
+									htmlCourse = htmlCourse + '<h3>'+data.totalExpense+'</h3>';
+									htmlCourse = htmlCourse + '<hr>';
+									htmlCourse = htmlCourse + '<h1>'+"Total Profit"+'</h1>';
+									htmlCourse = htmlCourse + '<h3>'+data.totalBalance+'</h3>';
+									htmlCourse = htmlCourse + '<hr>';
+									$(".showdata").html(htmlCourse);
 								
 							}
 
@@ -136,7 +137,21 @@ echo $this->Html->css("daterangepicker.css");
 					 		data : dates,
 					 		success : function(data){
 					 			
+								console.log("-----------------");
+					 			console.log(data);
+					 			 var htmlCourse = '';
+					 			htmlCourse = htmlCourse + '<h1>'+"Total Fee Gathered"+'</h1>';
+									htmlCourse = htmlCourse + '<h3>'+data.totalFee+'</h3>';
+									htmlCourse = htmlCourse + '<hr>';
+									htmlCourse = htmlCourse + '<h1>'+"Total Expenses"+'</h1>';
+									htmlCourse = htmlCourse + '<h3>'+data.totalExpense+'</h3>';
+									htmlCourse = htmlCourse + '<hr>';
+									htmlCourse = htmlCourse + '<h1>'+"Total Profit"+'</h1>';
+									htmlCourse = htmlCourse + '<h3>'+data.totalBalance+'</h3>';
+									htmlCourse = htmlCourse + '<hr>';
+									$(".showdata").html(htmlCourse);
 								
+
 							}
 
 						});

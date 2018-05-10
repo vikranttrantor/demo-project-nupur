@@ -51,6 +51,16 @@ class UsersTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true
         ]);
+        $this->hasMany('Messages', [
+            'foreignKey' => 'by_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true
+        ]);
+        $this->hasMany('Messages', [
+            'foreignKey' => 'to_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true
+        ]);
     }
 
     /**

@@ -70,22 +70,50 @@ class ReportComponent extends Component
 
 	public function getProfit($data)
 	{
-		$val = array_keys($data) ;
-		$v = $val[0];
-		//return $v;
-		if($v=='1')
-		{	$now = Time::now();
+		//$val = array_keys($data) ;
+		//pr($data);die("hello");
+		$start = $data['start'];
+		$end = $data['end'];
+		$course = $data['course'];
+
+		//pr($end);die("hello");
+		
+			$now = Time::now();
 			$cm = $now->month;
 			$cy = $now->year;
 			
-			 $trUserDetails = TableRegistry::get('Userdetails');
-         	$query = $trUserDetails->find();
-			$totalFeeGathered = $query->select(['sum' =>$query->func()->sum('totalFee')]);
+			 $trUserDetails = TableRegistry::get('Users');
+			 if(($start=='') &&($end==''))
+			 {
+			 	$query = $trUserDetails->find('all')->where(['Userdetails.course_id' => $course])->contain(['Userdetails']);
+			 }
+
+			 else if($course==0)
+			 {
+			 	$query = $trUserDetails->find('all')->where(['created <' => $end,'created >' => $start])->contain(['Userdetails']);
+			 }
+			 else
+			 {
+			 	$query = $trUserDetails->find('all')->where(['created <' => $end,'created >' => $start, 'Userdetails.course_id' => $course])->contain(['Userdetails']);
+			 }
+         	
+         	//pr($query->toArray());die;
+
+			$totalFeeGathered = $query->select(['sum' =>$query->func()->sum('Userdetails.totalFee')]);
+			//pr($totalFeeGathered->toArray());die;
 			$totalFee=$totalFeeGathered->toArray() ;
 			$feeTotal=$totalFee[0]->sum;
-
+			//pr($feeTotal);die;
 			$trExpenses = TableRegistry::get('Examount');
-			$query = $trExpenses->find();
+			if(($start=='') &&($end==''))
+			{
+				$query = $trExpenses->find();
+			}
+			else
+			{
+				$query = $trExpenses->find('all')->where(['created <' => $end,'created >' => $start]);
+			}
+			
 			$totalExpenses = $query->select(['sum' =>$query->func()->sum('amount')]);
 			$expenses=$totalExpenses->toArray();
 			$expenseTotal=$expenses[0]->sum;
@@ -100,7 +128,7 @@ class ReportComponent extends Component
 
 
          	
-		}
+		
 		
 	}
 }
