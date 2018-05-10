@@ -20,6 +20,8 @@ $this->loadHelper('Link');
         
          <li><?= $this->Html->link(__('Add Courses'), ['controller'=>'Courses','action' => 'index']) ?></li>
          <li><?= $this->Html->link(__('View Reports'), ['controller'=>'Reports','action' => 'index']) ?></li>
+         <li><?= $this->Html->link(__('Show student messages'), ['controller'=>'Messages','action' => 'index']) ?></li>
+         <li><?= $this->Html->link(__('Send Email To students'), ['action' => 'sendMail']) ?></li>
          <li><?= $this->Html->link(__('Settings'), ['controller'=>'Settings','action' => 'edit']) ?></li>
         <li><?= $this->Html->link(__('Logout'), ['action' => 'logout']) ?></li>
 

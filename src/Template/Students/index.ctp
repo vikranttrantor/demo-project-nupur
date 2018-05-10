@@ -39,7 +39,7 @@
         </tr>
          <tr>
             <th scope="row"><?= __('Course') ?></th>
-            <td><?= h($user->userdetail->course) ?></td>
+            <td><?= h($course) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Total Fee') ?></th>
@@ -47,7 +47,7 @@
         </tr>
          <tr>
             <th scope="row"><?= __('Fee Paid') ?></th>
-            <td><?= h($user->userdetail->feepaid) ?></td>
+            <td><?= h($user->userdetail->feePaid) ?>  <?= $this->Html->link(__('View Pay Summary'), ['action' => 'paysummary', $user->id]) ?>  </td></td>
         </tr>
          <tr>
             <th scope="row"><?= __('Image') ?></th>

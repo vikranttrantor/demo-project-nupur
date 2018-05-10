@@ -1,5 +1,7 @@
 <?php
 namespace App\Controller;
+use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 use App\Controller\AppController;
 
@@ -13,6 +15,13 @@ use App\Controller\AppController;
 class MessagesController extends AppController
 {
 
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Adminid');
+       
+    }
+
     /**
      * Index method
      *
@@ -23,9 +32,11 @@ class MessagesController extends AppController
         $this->paginate = [
             'contain' => ['Users']
         ];
-        $messages = $this->paginate($this->Messages);
-
+        $messages = $this->paginate($this->Messages->find()->select(['by_id','Users.name','Users.id'])->distinct(['by_id'])->contain(['Users'])->where(['Users.role'=>1]));
+      // pr($messages);die;
         $this->set(compact('messages'));
+
+
     }
 
     /**
@@ -36,12 +47,20 @@ class MessagesController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
-    {
-        $message = $this->Messages->get($id, [
-            'contain' => ['Users']
-        ]);
+    {   
+        $trMessages = TableRegistry::get('Messages');
+        $query = $trMessages->find();
+        $adminId=$this->Adminid->getAdminId();
+        $message = $query->select(['message','by_id'])->where(['OR'=>[['by_id'=>$id],['to_id'=>$id]]]);
+       // pr($message->toArray());die;
 
+        $query1 = $trMessages->query();
+        $query1->update()
+                ->set(['status' => 1])
+                ->where(['by_id' => $id])
+                ->execute();
         $this->set('message', $message);
+        $this->set('userid',$id);
     }
 
     /**
@@ -59,26 +78,51 @@ class MessagesController extends AppController
             //pr($this->request->getData());die;
             $msgData = $this->request->getData();
             
-            $msgData['by_id'] = $userId;
-            if($user=='student')
+            $adminId = $this->Adminid->getAdminId();
+            if($user == 'student')
             {   
-                $adminId=$this->Adminid->getAdminId();
-                 // $msgData['to_id'] = 
+                
+                $msgData['by_id'] = $userId;
+                  $msgData['to_id'] =  $adminId;
+                  $msgData['status'] = 0;
             }
+            else if($user == 'admin')
+            {   
+                $msgData['by_id'] = $adminId;
+                $msgData['to_id'] =  $userId;
+                 $msgData['status'] = 0;
+
+                 //$msgData['to_id'] =  $adminId;
+            }
+
            
-           // pr($msgData['by_id']);die;
-            $message = $this->Messages->patchEntity($message, $this->request->getData());
+          // pr($msgData);die;
+            $message = $this->Messages->patchEntity($message, $msgData);
            // pr($message);die;
             if ($this->Messages->save($message)) {
-                $this->Flash->success(__('The message has been saved.'));
-
-                return $this->redirect(['controller'=>'student','action' => 'index']);
+                $this->Flash->success(__('The message has been sent.'));
+                if($user == 'student')
+                {
+                    return $this->redirect(['controller'=>'students','action' => 'index']);
+            
+                }
+                else if($user == 'admin')
+                {
+                     return $this->redirect(['controller'=>'Messages','action' => 'view',$userId ]);
+                }
             }
-            $this->Flash->error(__('The message could not be saved. Please, try again.'));
-        }
+            else
+            {
+                $this->Flash->error(__('The message could not be sent. Please, try again.'));
+            }
+       
+    }
         $users = $this->Messages->Users->find('list', ['limit' => 200]);
         $this->set(compact('message', 'users'));
-    }
+        $this->set('usr',$user);
+        $this->set('usrId',$userId);
+    
+}
 
     /**
      * Edit method

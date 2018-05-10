@@ -3,13 +3,14 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Message[]|\Cake\Collection\CollectionInterface $messages
  */
+$this->loadHelper('Message');
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Message'), ['action' => 'add']) ?></li>
+        
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
+        
     </ul>
 </nav>
 <div class="messages index large-9 medium-8 columns content">
@@ -17,24 +18,27 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                
                 <th scope="col"><?= $this->Paginator->sort('by_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('to_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+               
+                <th scope="col"><?= $this->Paginator->sort('message count') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('unread message count') ?></th>
+               
             </tr>
         </thead>
         <tbody>
             <?php foreach ($messages as $message): ?>
             <tr>
-                <td><?= $this->Number->format($message->id) ?></td>
-                <td><?= $this->Number->format($message->by_id) ?></td>
+               
+               
                 <td><?= $message->has('user') ? $this->Html->link($message->user->name, ['controller' => 'Users', 'action' => 'view', $message->user->id]) : '' ?></td>
-                <td><?= $this->Number->format($message->status) ?></td>
+                   
+
+                <td><?= $msgCount = $this->Message->getTotalMessageCount($message->by_id); ?></td>
+                <td><?=  $unreadMsgCount = $this->Message->getUnreadMessageCount($message->by_id); ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $message->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $message->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $message->id], ['confirm' => __('Are you sure you want to delete # {0}?', $message->id)]) ?>
+                    <?= $this->Html->link(__('View Messages'), ['action' => 'view', $message->by_id]) ?>
+                   
                 </td>
             </tr>
             <?php endforeach; ?>

@@ -292,9 +292,9 @@ class UsersController extends AppController
     {   
          if ($this->request->is('post')) 
          {
-            $data=$this->request->getData();
-           $tr_amount=TableRegistry::get('Examount');
-            $amount=$tr_amount->newEntity($data);
+            $data = $this->request->getData();
+           $tr_amount = TableRegistry::get('Examount');
+            $amount = $tr_amount->newEntity($data);
            // $am = $tr_amount->patchEntity($amount,$data); 
             $amount->excategory_id=$data['field'];
 
@@ -308,5 +308,28 @@ class UsersController extends AppController
 
          }
     }
+
+     public function sendMail()
+     {   
+        $trUsers = TableRegistry::get('Users');
+        $users = $trUsers->find('list', ['limit' => 200])->where(['role'=>1]);
+        $this->set('usernames',$users);
+        if($this->request->is('post'))
+        {
+            $data = $this->request->getData();
+            //pr($data);die;
+            $name =$data['name'];
+            $message = $data['message'];
+            $subject=$data['subject'];
+
+            $userData = $trUsers->find()->select(['name','emailId'])->where(['id'=>$name]);
+          $userData = $userData->toArray();
+         // pr($userData);die;
+          $emailId = $userData[0]->emailId;
+          $name = $userData[0]->name;
+          
+         $this->Mail->sendMailToStudent($emailId, $name, $subject, $message);
+        }
+     }
 
 }

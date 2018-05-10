@@ -9,8 +9,9 @@ class AdminidComponent extends Component
 	public function getAdminId()
 	{
 		$trUsers = TableRegistry::get('Users');
-		$adminId = $trUsers->find('id')->where(['role'=>0]);
-		pr($adminId);die;
+		$adminId = $trUsers->find('all')->select(['id'])->where(['role'=>0]);
+		$adminid = $adminId->toArray();
+		return($adminid[0]->id);
 	}
 
 }

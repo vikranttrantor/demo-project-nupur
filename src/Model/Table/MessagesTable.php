@@ -34,14 +34,16 @@ class MessagesTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Users', [
+            'foreignKey' => 'to_id',
+            'joinType' => 'INNER'
+        ]);
+
          $this->belongsTo('Users', [
             'foreignKey' => 'by_id',
             'joinType' => 'INNER'
         ]);
-         $this->belongsTo('Users', [
-            'foreignKey' => 'to_id',
-            'joinType' => 'INNER'
-        ]);
+         
     }
 
     /**

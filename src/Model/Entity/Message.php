@@ -28,6 +28,7 @@ class Message extends Entity
         'by_id' => true,
         'to_id' => true,
         'message' => true,
-        'status' => true
+        'status' => true,
+        'user' => true
     ];
 }
