@@ -18,11 +18,13 @@ $this->loadHelper('Message');
 <div class="messages view large-9 medium-8 columns content">
 <table>
     <?php $adminId = $this->Message->getAdminId(); ?>
+
     <?php foreach ($message as $message): ?>
 
             <tr>
                
-              <td ><?= $message->message ?></td>
+             
+              <td class = <?php if($message->to_id == $adminId){ echo "right"; } else { echo "left"; } ?> ><?= $message->message ?></td>
                    
             </tr>
             <?php endforeach; ?>
@@ -34,14 +36,18 @@ $this->loadHelper('Message');
     </div>
 
 
+   
     <style>
     .right{
         align:right;
+         background-color: #DCDCDC;
     }
 
     .left{
         align:left;
+         background-color:#FFDAB9;
     }
   
 </style>
+
 

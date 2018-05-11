@@ -68,7 +68,7 @@ class StudentsController extends AppController
       $trMessages = TableRegistry::get('Messages');
         $query = $trMessages->find();
        // $adminId=$this->Adminid->getAdminId();
-        $message = $query->select(['message','to_id'])->where(['to_id'=>$userId]);
+        $message = $query->select(['message','to_id'])->where(['OR'=>[['by_id'=>$userId],['to_id'=>$userId]]]);
        // pr($message->toArray());die;
 
         $query1 = $trMessages->query();

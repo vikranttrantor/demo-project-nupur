@@ -19,6 +19,7 @@ echo $this->Html->script('ckeditor/ckeditor', array('inline' => false));
         else
         {
            echo $this->Html->link(__('Goto your profile'), ['controller' => 'Students', 'action' => 'index']); 
+           echo $this->Html->link(__('View Chat'), ['controller' => 'Students', 'action' => 'viewmessage',$usrId]); 
         }?>
         </li>
        
@@ -28,9 +29,7 @@ echo $this->Html->script('ckeditor/ckeditor', array('inline' => false));
     <?= $this->Form->create($message) ?>
     <fieldset>
         <legend><?= __('Add Message')?> 
-            <?php if($unreadMsgCount>0) {
-                                            echo $this->Html->link(__("($unreadMsgCount message received from Admin)"), ['controller' => 'Students', 'action' => 'viewmessage', $usrId ]);  
-                                      } ?></legend>
+            </legend>
         <?php
         
             
