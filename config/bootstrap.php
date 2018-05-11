@@ -204,9 +204,10 @@ Type::build('timestamp')
  * advanced ways of loading plugins
  *
  * Plugin::loadAll(); // Loads all plugins at once
- * Plugin::load('Migrations'); //Loads a single plugin named Migrations
  *
  */
+  Plugin::load('Migrations'); //Loads a single plugin named Migrations
+ 
 
 /*
  * Only try to load DebugKit in development mode
